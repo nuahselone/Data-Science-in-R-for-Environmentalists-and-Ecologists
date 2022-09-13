@@ -1,0 +1,100 @@
+---
+title: "Environmental data Science"
+author: "Selone Nuah"
+date: "2022-09-13"
+output: html_document
+# Coding Club Workshop 1 - R Basics
+# Learning how to import and explore data, and make graphs about Edinburgh's biodiversity
+# Written by Selone Nuah 09/13/2022 Okayama University
+
+#Import and check data
+
+#View Dataset
+head(edidiv)
+tail(edidiv)
+str(edidiv)
+#Access one column of the dataframa and modify its character
+head(edidiv$taxonGroup)
+class(edidiv$taxonGroup)
+#Modification of character type
+edidiv$taxonGroup <- as.factor(edidiv$taxonGroup)
+class(edidiv$taxonGroup)
+#More exploration
+#Display number of rows and columns
+dim(edidiv)
+#Summary of the entire datasets
+summary(edidiv)
+# Summary of a particular column
+summary(edidiv$taxonGroup)
+#Download packages
+install.packages("dplyr")
+#Load the package
+library(dplyr)
+#3 Calculate species richness(Total number of different species in a given place or group)
+#Create object for each taxons
+Beetle <- filter(edidiv, taxonGroup =="Beetle")
+Bird <- filter(edidiv, taxonGroup =="Bird")
+Butterfly <- filter(edidiv, taxonGroup =="Butterfly")
+Dragonfly <- filter(edidiv, taxonGroup =="Dragonfly")
+Flowering.plants <- filter(edidiv, taxonGroup =="Flowering.plants")
+Fungus <- filter(edidiv, taxonGroup =="Fungus")
+Hymenopteran <- filter(edidiv, taxonGroup =="Hymenopteran")
+Lichen <- filter(edidiv, taxonGroup =="Lichen")
+Liverwort <- filter(edidiv, taxonGroup =="Liverwort")
+Mammal <- filter(edidiv, taxonGroup =="Mammal")
+Mollusc <- filter(edidiv, taxonGroup =="Mollusc")
+#Calculate species richness:Nest two function together with unique()-identifies different species, and length(), to count the number of species
+a <- length(unique(Beetle$taxonName))
+b <- length(unique(Bird$taxonName))
+c <- length(unique(Butterfly$taxonName))
+d <- length(unique(Dragonfly$taxonName))
+e <- length(unique(Flowering.plants$taxonName))
+f <- length(unique(Fungus$taxonName))
+g <- length(unique(Hymenopteran$taxonName))
+h <- length(unique(Lichen$taxonName))
+i <- length(unique(Liverwort$taxonName))
+j <- length(unique(Mammal$taxonName))
+k <- length(unique(Mollusc$taxonName))
+#Create and plot a vector
+#Chain togehter all values
+biodiv <- c(a,b,c,d,e,f,g,h,i,j,k)
+#Visualize species richness with the barplot function
+png("barplot.png", width=1600, height=600)
+barplot(biodiv, xlab="Taxa", ylab="Number of species", ylim=c(0,600), cex.names=1.5, cex.axis=1.5, cex.lab=1.5)
+dev.off()
+#Create a dataframe with our species richness data and plot it
+# Create an object called taxa that contains the taxa names
+taxa <- c( "Beetle",
+           "Bird",
+           "Butterfly",
+           "Dragonfly",
+           "Flowering.plants",
+           "Fungus",
+           "Hymenopteran",
+           "Lichen",
+           "Liverwort",
+           "Mammal",
+           "Mollusc")
+#Turn the object into a factor
+taxa_f <- factor(taxa)
+#Combine values for species number in an object called richness
+richness <- c(a,b,c,d,e,f,g,h,i,j,k)
+# Create dataframe from two vactors
+biodata <- data.frame(taxa_f, richness)
+#Plot the dataframe
+png("barplot2.png", width= 1600, height=600)
+barplot(biodata$richness,names.arg=c("Beetle",
+                                      "Bird",
+                                      "Butterfly",
+                                      "Dragonfly",
+                                      "Flower.plants",
+                                      "Fungus",
+                                      "Hymenopteran",
+                                      "Lichen",
+                                      "Liverwort",
+                                      "Mammal",
+                                      "Mollusc"),
+            xlab="Taxa", ylab="Number of species", ylim=c(0,600))
+        dev.off()
+
+
